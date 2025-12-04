@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADA</title>
+
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Stars background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Moon */
+        .moon {
+            position: fixed;
+            top: 80px;
+            right: 100px;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ffd89b, #f9c56a);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(255, 216, 155, 0.6),
+                        0 0 100px rgba(255, 216, 155, 0.3);
+            z-index: 2;
+            animation: moonGlow 4s ease-in-out infinite;
+        }
+
+        .moon::after {
+            content: 'Ay her gün çok güzel';
+            position: absolute;
+            top: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd89b;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            text-shadow: 0 0 10px rgba(255, 216, 155, 0.8);
+            animation: fadeInOut 4s ease-in-out infinite;
+        }
+
+        @keyframes moonGlow {
+            0%, 100% { 
+                box-shadow: 0 0 60px rgba(255, 216, 155, 0.6),
+                           0 0 100px rgba(255, 216, 155, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 80px rgba(255, 216, 155, 0.8),
+                           0 0 120px rgba(255, 216, 155, 0.5);
+            }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            padding: 70px 20px;
+            color: white;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #ffd89b;
+            text-shadow: 0 0 20px rgba(255, 216, 155, 0.6),
+                         2px 2px 10px rgba(0,0,0,0.3);
+            animation: fadeDown 1s ease-out;
+            letter-spacing: 0.3rem;
+        }
+
+        .subtitle {
+            margin-top: 15px;
+            font-size: 1.5rem;
+            color: #e0e0e0;
+            opacity: 0.9;
+            animation: fadeUp 1s ease-out;
+            animation-delay: .2s;
+        }
+
+        /* SECTION */
+        .section {
+            background: rgba(255,255,255,0.95);
+            padding: 45px;
+            margin: 40px 0;
+            border-radius: 22px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 0.9s ease-out;
+        }
+
+        .section h2 {
+            text-align: center;
+            color: #302b63;
+            font-size: 2.4rem;
+            margin-bottom: 30px;
+        }
+
+        /* FLOWER CARDS */
+        .flower-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+        }
+
+        .flower-card {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 30px;
+            border-radius: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: .35s ease;
+            transform: translateY(0);
+        }
+
+        .flower-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(142, 197, 252, 0.4);
+        }
+
+        .flower-emoji {
+            font-size: 4.2rem;
+            margin-bottom: 15px;
+            display: block;
+            animation: float 3.2s ease-in-out infinite;
+        }
+
+        .flower-card h3 {
+            font-size: 1.6rem;
+            color: #302b63;
+            margin-bottom: 10px;
+        }
+
+        .flower-card p {
+            font-size: 1.05rem;
+            color: #444;
+        }
+
+        /* LOVE MESSAGE */
+        .love-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 30px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 35px rgba(118, 75, 162, 0.4);
+        }
+
+        .love-message h2 {
+            font-size: 2.5rem;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 2;
+            color: #ffd89b;
+        }
+
+        .love-message p {
+            position: relative;
+            z-index: 2;
+            max-width: 750px;
+            margin: 0 auto;
+            font-size: 1.3rem;
+            line-height: 1.8;
+        }
+
+        .love-message::before {
+            content: "🌙";
+            position: absolute;
+            font-size: 11rem;
+            opacity: 0.15;
+            top: -10px;
+            right: -10px;
+            animation: pulse 2.5s infinite ease-in-out;
+            z-index: 1;
+        }
+
+        /* REASONS */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px,1fr));
+            gap: 25px;
+        }
+
+        .reason-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            text-align: center;
+            border-radius: 16px;
+            transition: .35s ease;
+        }
+
+        .reason-box:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(168, 237, 234, 0.4);
+        }
+
+        .reason-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #302b63;
+            margin-bottom: 10px;
+        }
+
+        .reason-text {
+            color: #444;
+            font-size: 1.1rem;
+        }
+
+        /* SHOOTING STARS */
+        .shooting-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5);
+            animation: shoot 3s ease-out infinite;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-300px) translateY(300px);
+                opacity: 0;
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            color: #ffd89b;
+            padding: 50px 20px;
+            font-size: 1.3rem;
+            text-shadow: 0 0 10px rgba(255, 216, 155, 0.5);
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+        }
+
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            h1 { font-size: 3.5rem; letter-spacing: 0.2rem; }
+            .subtitle { font-size: 1.2rem; }
+            .section h2 { font-size: 2rem; }
+            .moon {
+                top: 40px;
+                right: 20px;
+                width: 80px;
+                height: 80px;
+            }
+            .moon::after {
+                font-size: 0.75rem;
+                top: 95px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stars" id="stars"></div>
+    <div class="shooting-stars" id="shooting-stars"></div>
+    <div class="moon"></div>
+
+    <div class="container">
+        <header>
+            <h1>ADA</h1>
+            <p class="subtitle">Her şey senin için…</p>
+        </header>
+
+        <div class="section">
+            <h2>Seni Düşündüğümde</h2>
+
+            <div class="flower-container">
+                <div class="flower-card">
+                    <span class="flower-emoji">🌹</span>
+                    <h3>Gül Gibi</h3>
+                    <p>Güzelliğin ve zarafetin, en özel gül bahçelerinden daha etkileyici.</p>
+                </div>
+
+                <div class="flower-card">
+                    <span class="flower-emoji">🌷</span>
+                    <h3>Lale Gibi</h3>
+                    <p>Her bakışın, baharın gelişini müjdeleyen laleler kadar taze.</p>
+                </div>
+
+                <div class="flower-card">
+                    <span class="flower-emoji">🌺</span>
+                    <h3>Orkide Gibi</h3>
+                    <p>Nadir, özel ve benzersiz… Tıpkı senin gibi.</p>
+                </div>
+
+                <div class="flower-card">
+                    <span class="flower-emoji">🌼</span>
+                    <h3>Kasımpatı Gibi</h3>
+                    <p>Rengarenk ve neşe dolu; hayatıma kattığın mutluluk gibi.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="love-message">
+            <h2>Kalbimden Geçenler</h2>
+            <p>
+                Hayatım, seni her gördüğümde kalbim hızlanıyor.  
+                Seninle geçen her saniye benim için bir armağan.  
+                Sadece bir sevgili değilsin; sen benim dünyamsın.  
+                Seni sonsuza kadar seviyorum.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Seni Sevmemin Nedenleri</h2>
+
+            <div class="reasons-grid">
+                <div class="reason-box">
+                    <div class="reason-number">1</div>
+                    <div class="reason-text">Gülüşün güneş gibi aydınlatıyor.</div>
+                </div>
+
+                <div class="reason-box">
+                    <div class="reason-number">2</div>
+                    <div class="reason-text">Kalbinin güzelliği her şeye bedel.</div>
+                </div>
+
+                <div class="reason-box">
+                    <div class="reason-number">3</div>
+                    <div class="reason-text">Bana hissettirdiklerin eşsiz.</div>
+                </div>
+
+                <div class="reason-box">
+                    <div class="reason-number">4</div>
+                    <div class="reason-text">Her anı özel kılabilmen.</div>
+                </div>
+
+                <div class="reason-box">
+                    <div class="reason-number">5</div>
+                    <div class="reason-text">Sadece sen olman.</div>
+                </div>
+
+                <div class="reason-box">
+                    <div class="reason-number">6</div>
+                    <div class="reason-text">Hayatıma kattığın mutluluk.</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            Seni Sonsuz Seviyorum ⭐
+        </footer>
+    </div>
+
+<script>
+    // Create stars
+    function createStars() {
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 1 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+    }
+
+    // Create shooting stars
+    function createShootingStar() {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 50 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        document.getElementById('shooting-stars').appendChild(star);
+
+        setTimeout(() => star.remove(), 3000);
+    }
+
+    // Initialize
+    createStars();
+    setInterval(createShootingStar, 3000);
+
+    // Flower card click effect
+    document.querySelectorAll('.flower-card').forEach(card => {
+        card.addEventListener('click', function() {
+            this.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            setTimeout(() => {
+                this.style.background = 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)';
+            }, 300);
+        });
+    });
+</script>
+
+</body>
+</html>
